@@ -1,0 +1,16 @@
+artifact_uri: file:///c:/Users/ChaarlyZ/OneDrive%20-%20CINVESTAV/Escritorio/Maestria/2do%20Cuatrimestre/Machine%20Learning/Project/mlruns/0/ebed42d43daf4931bd4ef7646692d738/artifacts
+deleted_time: 1681601535241
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: deleted
+run_id: ebed42d43daf4931bd4ef7646692d738
+run_name: awesome-owl-632
+run_uuid: ebed42d43daf4931bd4ef7646692d738
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681601454587
+status: 1
+tags: []
+user_id: ChaarlyZ

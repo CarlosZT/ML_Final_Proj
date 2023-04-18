@@ -1,0 +1,16 @@
+artifact_uri: file:///c:/Users/ChaarlyZ/OneDrive%20-%20CINVESTAV/Escritorio/Maestria/2do%20Cuatrimestre/Machine%20Learning/Project/mlruns/0/78b9798f871241deb5870edeee71bf00/artifacts
+deleted_time: 1681601539194
+end_time: 1681601391765
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: deleted
+run_id: 78b9798f871241deb5870edeee71bf00
+run_name: beautiful-worm-507
+run_uuid: 78b9798f871241deb5870edeee71bf00
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681601391669
+status: 3
+tags: []
+user_id: ChaarlyZ
