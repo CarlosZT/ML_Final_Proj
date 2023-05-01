@@ -107,10 +107,10 @@ def data_augmentation(x, y):
     alt_x = []
     for i in range(x.shape[1]):
         params = get_feature_distribution(x[:,i], y)
-        x_aug = np.concatenate([x[:,i], np.random.normal(params['mu0'], params['std0'], size=class_difference)])
+        x_aug = np.concatenate([x[:,i], np.random.normal(params['mu1'], params['std1'], size=class_difference)])
         alt_x.append(x_aug)
 
-    y_aug = np.concatenate([y, np.zeros(class_difference)])
+    y_aug = np.concatenate([y, np.ones(class_difference)])
     
     return np.array(alt_x).swapaxes(0,1), y_aug
     
