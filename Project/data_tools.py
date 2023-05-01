@@ -1,6 +1,29 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+from sklearn.tree import DecisionTreeClassifier
+import mlflow
+from mlflow.pyfunc import PythonModel
+
+
+
+
+
+def metrics(y_true, y_hat):
+        y_t = y_hat[y_hat==y_true] #Trues
+        y_n = y_hat[y_hat!=y_true] #Negatives
+
+        false_negatives = len(y_n[y_n==0])
+        false_positives = len(y_n[y_n==1])
+        true_positives = len(y_t[y_t==1])
+
+        recall = true_positives/(true_positives + false_negatives)
+        precision = true_positives/(true_positives + false_positives)
+        f1 = recall/(precision + recall)
+
+
+        return {'recall':recall, 'precision': precision, 'f1': f1}
+
 def get_feature_distribution(x, y):
     u0 = []
     u1 = []
@@ -50,48 +73,31 @@ def overlapping(mu0, mu1, v0, v1):
 
 def feature_performance(x, y, mu0, sigma0, mu1, sigma1, linspace_lim = 1.5, plot=False):
     
-    # if outlier_limit == 0:
-    #     print('>No outlier limit')
-    #     outlier_limit = 10
-    # else:
-    #     print(f'>Limiting the outliers til\' {outlier_limit}σ')
     a = np.linspace(-linspace_lim, linspace_lim, 200)
     b = g(a, mu0, sigma0)
     b_ = g(a, mu1, sigma1)
     error = overlapping(mu0, mu1, b, b_)
     mean_diff = np.abs(mu0 - mu1)
-    
-    # a_x0 = x[y==0]
-    # b_x0 = a_x0[a_x0>=(mu0 - outlier_limit * sigma0)]
-    # c_x0 = b_x0[b_x0<=(mu0 + outlier_limit * sigma0)]
-
-    # a_y0 = y[y==0]
-    # b_y0 = a_y0[a_x0>=(mu0 - outlier_limit * sigma0)]
-    # c_y0 = b_y0[b_x0<=(mu0 + outlier_limit * sigma0)]
-
-    # a_x1 = x[y==1]
-    # b_x1 = a_x1[a_x1>=(mu1 - outlier_limit* sigma1)]
-    # c_x1 = b_x1[b_x1<=(mu1 + outlier_limit * sigma1)]
-
-    # a_y1 = y[y==1]
-    # b_y1 = a_y1[a_x1>=(mu1 - outlier_limit * sigma1)]
-    # c_y1 = b_y1[b_x1<=(mu1 + outlier_limit * sigma1)]
-
 
     if plot:
-        plt.grid(True)
-        plt.scatter(x[y==0], y[y==0], label='Class-0 Samples', alpha=0.3)
-        plt.scatter(x[y==1], y[y==1], label='Class-1 Samples', alpha=0.3)
+        fig, ax = plt.subplots()
+        
+        ax.grid(True)
+        ax.scatter(x[y==0], y[y==0], label='Class-0 Samples', alpha=0.3)
+        ax.scatter(x[y==1], y[y==1], label='Class-1 Samples', alpha=0.3)
         # plt.scatter(c_x0, c_y0, label='Class-0 Samples', alpha=0.3)
         # plt.scatter(c_x1, c_y1, label='Class-1 Samples', alpha=0.3)
-        plt.plot(a, b, color='skyblue', linewidth=2, label='Class-0 Distribution')
-        plt.plot(a, b_, color='salmon', linewidth=2, label='Class-1 Distribution')
-        plt.xlabel('x')
-        plt.ylabel('P(x)')
-        plt.title('Feature-Class Distribution')
-        plt.legend(loc='best')
+        ax.plot(a, b, color='skyblue', linewidth=2, label='Class-0 Distribution')
+        ax.plot(a, b_, color='salmon', linewidth=2, label='Class-1 Distribution')
+        
+        ax.set_xlabel('x')
+        ax.set_ylabel('P(x)')
+        ax.set_title('Feature-Class Distribution')
+        ax.legend(loc='best')
         #plt.savefig(f'features/feature_{time.time()}.png', dpi=300)
-        plt.show()
+        return error, mean_diff, fig
+ 
+
 
     
     return error, mean_diff
